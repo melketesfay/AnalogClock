@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 200vh;
+        }
+
+        .upper {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+            background-color: aqua;
+            position: relative;
+
+        }
+
+        .container {
+            top: 50vh;
+            /* position: relative; */
+            width: 40vw;
+            height: 40vw;
+            background-color: red;
+            transition: transform 1ms linear;
+            transform-origin: bottom right;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            transform: matrix(1);
+
+        }
+
+        .child {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            width: 10vw;
+            height: 10vw;
+            background-color: black;
+            /* transition: transform 1ms linear;
+            transform-origin: bottom right; */
+            opacity: 5;
+            font-size: 2rem;
+            color: white;
+            /* transition: translateY 5s ease-in 1; */
+            animation: moveup 2s cubic-bezier(1, 0, 0, 1) 1;
+
+        }
+
+
+        .secondContainer {
+
+            background-color: blue;
+            display: flex;
+            justify-content: center;
+            position: relative;
+
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            border-radius: 2vw;
+
+        }
+
+        video {
+            border-radius: 5%;
+        }
+
+        .one {
+            width: 50%;
+            height: 50%;
+            /* background-color: black; */
+            position: absolute;
+            z-index: 2;
+            opacity: 1;
+        }
+
+        .two {
+            width: 50%;
+            height: 50%;
+            /* background-color: green; */
+            position: absolute;
+            z-index: 1;
+            left: 10%;
+        }
+
+        h2,
+        h1 {
+            opacity: 1;
+            margin: 0;
+            padding: 0;
+            z-index: 10;
+            color: blue;
+            position: relative;
+            font-size: 10rem;
+            font-weight: 900;
+
+        }
+
+        @keyframes moveup {
+            0% {
+                opacity: 0;
+                transform: translateY(300%);
+            }
+
+
+
+            100% {
+                opacity: 1;
+                transform: translateY(0%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="upper">
+        <div class="container">
+            <div id="child" class="child">
+                <h2>Hallo</h2>
+            </div>
+
+
+        </div>
+
+    </div>
+    </div>
+    <div class="secondContainer">
+        <video autoplay loop width="100%">
+            <source src="hero.mp4" type="video/mp4">
+        </video>
+        <div class="one">
+            <h1>Hallo</h1>
+        </div>
+        <div class="two">jall</div>
+    </div>
+</body>
+
+<script>
+    // while (true) {
+    //     setTimeout(() => {
+    //         console.log("hallo")
+    //     }, 100);
+
+    // }
+</script>
+
+</html>

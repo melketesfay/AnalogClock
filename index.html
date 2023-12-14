@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .upper {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+
+
+        }
+
+        .container {
+
+            width: 40vw;
+            height: 40vw;
+            background-color: red;
+            border-radius: 60vw;
+            display: flex;
+            justify-content: center;
+
+        }
+
+        .child {
+            width: 1vw;
+            height: 20vw;
+            background-color: black;
+            transition: transform 0ms linear;
+            transform-origin: 50% 100%;
+            position: absolute;
+            z-index: 3;
+
+        }
+
+        .minute {
+            width: 2vw;
+            height: 20vw;
+            background-color: green;
+            transition: transformMin 0ms linear;
+            transform-origin: 50% 100%;
+            position: absolute;
+
+            z-index: 2;
+
+        }
+
+        .hour {
+            width: 3vw;
+            height: 20vw;
+            background-color: yellow;
+            transition: transformMin 0ms linear;
+            transform-origin: 50% 100%;
+            position: absolute;
+
+            z-index: 1;
+        }
+
+
+
+
+        /* .rotate {
+            transform: rotate(360deg);
+        } */
+    </style>
+</head>
+
+<body>
+    <div class="upper">
+        <div class="container">
+            <div id="child" class="child">
+
+            </div>
+            <div class="minute"></div>
+            <div class="hour"></div>
+        </div>
+    </div>
+    <audio id="sound" src="">
+        <source src="digital-alarm-clock.mp3" type="audio/mp3">
+    </audio>
+
+
+
+</body>
+
+<script>
+    let timer;
+    let deg = 0;
+    let min = 0;
+    let hr = 0;
+    function roTate() {
+
+        deg = deg + 6;
+        let fString = "rotate("
+        let seString = "deg)"
+
+        let retrunValue = fString + deg.toString() + seString;
+        // let minValue = fString + "-" + deg.toString() + seString;
+        // document.querySelector(".minute").style.transform = minvalue;
+
+        document.querySelector(".child").style.transform = retrunValue;
+
+        // console.log(retrunValue)
+
+        if (deg % 360 == 0) {
+
+
+            ++min;
+            let minrot = fString + (min * 6).toString() + seString;
+            document.querySelector(".minute").style.transform = minrot;
+            console.log(min)
+
+            if (min % 60 == 0) {
+                ++hr;
+                let hrRota = fString + (hr * 15).toString() + seString;
+                document.querySelector(".hour").style.transform = hrRota;
+                console.log(hr)
+            }
+        }
+
+
+        return [hr, min, deg]
+    }
+
+
+
+    function startRotation() {
+        timer = setInterval(roTate, 1)
+        console.log("rotated once")
+    }
+    document.addEventListener("click", startRotation)
+
+
+
+</script>
+
+</html>

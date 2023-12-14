@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Timer</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 500px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: inline-block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 15px;
+            width: 100px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .timer {
+            font-size: 48px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            font-family: 'Digital-7', sans-serif;
+            /* Use the Digital-7 font */
+            color: #333;
+        }
+    </style>
+    <!-- Link to the Digital-7 font (adjust the path if needed) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Digital-7">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Custom Timer</h1>
+        <label for="hoursInput">Hours:</label>
+        <input type="number" id="hoursInput" placeholder="00" min="0" max="23" oninput="formatInputValue(this)">
+        <label for="minutesInput">Minutes:</label>
+        <input type="number" id="minutesInput" placeholder="00" min="0" max="59" oninput="formatInputValue(this)">
+        <label for="secondsInput">Seconds:</label>
+        <input type="number" id="secondsInput" placeholder="00" min="0" max="59" oninput="formatInputValue(this)">
+        <br>
+        <button onclick="startTimer()">Start Timer</button>
+        <button onclick="pauseTimer()">Pause Timer</button>
+        <button onclick="resetTimer()">Reset Timer</button>
+        <div class="timer" id="timer">00:00:00</div>
+    </div>
+
+    <script>
+        let timerInterval;
+        let timerDuration = 0; // Default duration in seconds
+        let isPaused = false;
+
+        // Function to format input value to always display two digits
+        function formatInputValue(input) {
+            if (input.value < 10) {
+                input.value = '0' + input.value;
+            }
+        }
+
+        // Function to start the timer
+        function startTimer() {
+            const hoursInput = document.getElementById('hoursInput');
+            const minutesInput = document.getElementById('minutesInput');
+            const secondsInput = document.getElementById('secondsInput');
+
+            if (hoursInput.value > 23 || minutesInput.value > 59 || secondsInput.value > 59) {
+                alert('Please enter values below or equal to 23 for hours and 59 for minutes/seconds.');
+                return;
+            }
+
+            const hours = ('0' + (parseInt(hoursInput.value) || 0)).slice(-2);
+            const minutes = ('0' + (parseInt(minutesInput.value) || 0)).slice(-2);
+            const seconds = ('0' + (parseInt(secondsInput.value) || 0)).slice(-2);
+
+            timerDuration = hours * 3600 + minutes * 60 + seconds;
+
+            let timer = timerDuration;
+            let hoursRemaining, minutesRemaining, secondsRemaining;
+
+            timerInterval = setInterval(function () {
+                if (!isPaused) {
+                    hoursRemaining = Math.floor(timer / 3600);
+                    minutesRemaining = Math.floor((timer % 3600) / 60);
+                    secondsRemaining = timer % 60;
+
+                    hoursRemaining = String(hoursRemaining).padStart(2, '0');
+                    minutesRemaining = String(minutesRemaining).padStart(2, '0');
+                    secondsRemaining = String(secondsRemaining).padStart(2, '0');
+
+                    document.getElementById('timer').textContent = hoursRemaining + ':' + minutesRemaining + ':' + secondsRemaining;
+
+                    --timer;
+
+                    if (timer < 0) {
+                        clearInterval(timerInterval);
+                        document.getElementById('timer').textContent = "Time's up!";
+                    }
+                }
+            }, 1000);
+        }
+
+        // Function to pause the timer
+        function pauseTimer() {
+            isPaused = !isPaused;
+        }
+
+        // Function to reset the timer and inputs to zero
+        function resetTimer() {
+            clearInterval(timerInterval);
+            document.getElementById('timer').textContent = '00:00:00';
+            document.getElementById('hoursInput').value = '00';
+            document.getElementById('minutesInput').value = '00';
+            document.getElementById('secondsInput').value = '00';
+            timerDuration = 0;
+        }
+
+        // Set the timer duration when the page loads
+        window.onload = function () {
+            document.getElementById('timer').textContent = formatTimer(timerDuration);
+        };
+
+        // Format timer to HH:MM:SS
+        function formatTimer(timeInSeconds) {
+            let hours = Math.floor(timeInSeconds / 3600);
+            let minutes = Math.floor((timeInSeconds % 3600) / 60);
+            let seconds = timeInSeconds % 60;
+
+            hours = ('0' + hours).slice(-2);
+            minutes = ('0' + minutes).slice(-2);
+            seconds = ('0' + seconds).slice(-2);
+
+            return hours + ':' + minutes + ':' + seconds;
+        }
+    </script>
+
+</body>
+
+</html>
